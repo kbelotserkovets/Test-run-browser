@@ -1,27 +1,13 @@
-# Preparation
-
-This is instruction for running test
+# Instruction for running test
 
 
-## Installation
+## Install required packages
 
-- Use the package manager [pip](https://pip.pypa.io/en/stable/) to install Selenium.
+Setting up required depndencies
 
 ```bash
-pip install selenium
+pip install -r requirements.txt
 ```
-
-You may consider using [virtualenv](https://virtualenv.pypa.io/en/latest/) to create isolated Python environments. 
-Python 3.6 has **pyvenv** which is almost the same as virtualenv.
-
-- Selenium server is a Java program. Java Runtime Environment (JRE) 1.6 or newer version is recommended to run Selenium server. 
-
-- Selenium requires a driver to interface with the chosen browser. Here we use 
-[Crhrome driver](https://sites.google.com/a/chromium.org/chromedriver/downloads) and you should choose
-version according what version of Chrome you're using
-
-If Java Runtime Environment (JRE) is not installed in your system, you can download the [JRE from the Oracle website](https://www.oracle.com/technetwork/java/javase/downloads/index.html). If you are using a GNU/Linux system and have root access in your system, you can also use your operating system instructions to install JRE.
-
 
 ## Run via IDE
 
@@ -34,6 +20,3 @@ If Java Runtime Environment (JRE) is not installed in your system, you can downl
 - Launch Terminal from directory where you saved your ```try1.py``` file.
 - Type ```python ./try1.py``` to run test
 
-## Notes
-
-Please, make sure that you saved chromedriver to that directory where you saved downloaded 2 files
