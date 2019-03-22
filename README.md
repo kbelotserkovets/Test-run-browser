@@ -12,16 +12,12 @@ git clone https://github.com/Ksen4ik/Test-run-browser.git
 
 ## Install Python
 
-Here is the [link](https://www.python.org/downloads/source/) for install Python on Linux
-
-Here is the [link](https://www.python.org/downloads/windows/) for install Python on Windows
-
-Here is the [link](https://www.python.org/downloads/mac-osx/) for install Python on MacOS
+Here is the [link](https://www.python.org/downloads/) for install Python 3.6
 
 
 ## Install pip
 
-Use [pip](https://pip.pypa.io/en/latest/installing/) to run our commands. Python 3.6 has pip available in the standard library. 
+Use [pip](https://pip.pypa.io/en/latest/installing/) to run our commands. 
 
 
 ## Install required packages
