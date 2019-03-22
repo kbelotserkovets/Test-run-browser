@@ -5,7 +5,7 @@ from selenium.webdriver.common.keys import Keys
 
 current_dir = os.path.dirname(__file__)
 
-browser = webdriver.Chrome(executable_path=os.path.join(current_dir, 'chromedriver')) # "/home/kbelotserkovets/Documents/Test/chromedriver") # Path to Chrome webdriber
+browser = webdriver.Chrome(executable_path=os.path.join(current_dir, 'chromedriver')) # Path to Chrome webdriber
 browser.get('http://www.google.com') #
 assert 'Google' in browser.title
 
