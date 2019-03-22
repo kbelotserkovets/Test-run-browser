@@ -1,4 +1,4 @@
-# Instruction for running test
+# Instruction for running test on Ubuntu
 
 
 ## Install required packages
@@ -20,3 +20,7 @@ pip install -r requirements.txt
 - Launch Terminal from directory where you saved your ```try1.py``` file.
 - Type ```python ./try1.py``` to run test
 
+
+## Notes
+
+- Please, make sure your Chrome browser's version is ```Version 73.0.3683.75 (Official Build) (64-bit)```
