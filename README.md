@@ -36,4 +36,4 @@ If Java Runtime Environment (JRE) is not installed in your system, you can downl
 
 ## Notes
 
-Please, make sure that you set correct PATH to chrome driver in ```try1.py``` file on 4th line
+Please, make sure that you saved chromedriver to that directory where you saved downloaded 2 files
