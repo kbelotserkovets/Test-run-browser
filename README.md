@@ -37,17 +37,21 @@ pip install -r requirements.txt
 - Run this file by clickng ```Shift + F10```
 
 
-## Run via Terminal
+## Run via Terminal (Linux/Mac)
 
 ```commandline
 python3 ./try1.py
 ```
+## Run via cmd (Windows)
 
+```commandline
+python ./try1.py
+```
 
 #### Notes
 
-- Please, make sure your Chrome browser's version is ```73.0.3683.75 (Official Build) (64-bit)```
-- Chromedriver's version in the repository is ```73.0.3683.68```. If you're using another version of Chrome, [here is the link](http://chromedriver.chromium.org/) for download another chromedriver, according to your Chrome browser's version and just replace file.
+- Please, make sure your ```Chrome browser's version is 73```
+- ```Chromedriver's version``` in the repository is ```73```. If you're using another version of Chrome, [here is the link](http://chromedriver.chromium.org/) for download another chromedriver, according to your Chrome browser's version and just replace file.
 
 
 

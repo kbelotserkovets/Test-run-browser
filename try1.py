@@ -6,7 +6,7 @@ from selenium.webdriver.common.keys import Keys
 
 current_dir = os.path.dirname(__file__)
 
-def driverPlatform ():
+def getDriverByPlatform():
     if sys.platform == 'linux':
         return 'chromedriver'
     elif sys.platform == 'darwin':
@@ -14,10 +14,8 @@ def driverPlatform ():
     elif sys.platform == 'win32':
         return 'chromedriver.exe'
 
-currentDriver = driverPlatform()
 
-
-browser = webdriver.Chrome(executable_path=os.path.join(current_dir, currentDriver)) # Path to Chrome webdriber
+browser = webdriver.Chrome(executable_path=os.path.join(current_dir, getDriverByPlatform())) # Path to Chrome webdriber
 browser.get('http://www.google.com') #
 assert 'Google' in browser.title
 
