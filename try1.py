@@ -22,4 +22,7 @@ assert 'Google' in browser.title
 elem = browser.find_element_by_name('q')  # Find the search box
 elem.send_keys('Selenide' + Keys.RETURN)  # Input word "Selenide" and start search
 
-# browser.quit() # This is optional, for closing browser
+assert "No results found." not in browser.page_source
+assert "Selenide" in browser.page_source
+
+browser.quit() # This is optional, for closing browser
