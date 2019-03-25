@@ -35,17 +35,6 @@ for result in search_result:
     assert 'Selenide' in title_text
 
 
-
-
-
-
-
-
-
-
-
-
-
 # RESULTS_LOCATOR = "//div/h3/a"
 #
 # WebDriverWait(browser, 10).until(
