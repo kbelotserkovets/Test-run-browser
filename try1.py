@@ -21,19 +21,18 @@ def getDriverByPlatform():
 browser = webdriver.Chrome(executable_path=os.path.join(current_dir, getDriverByPlatform())) # Path to Chrome webdriber
 browser.get('http://www.google.com')
 
-elem = browser.find_element_by_name('q')  # Find the search box
-elem.send_keys('Selenide' + Keys.RETURN)  # Input word "Selenide" and start search
+element = browser.find_element_by_name('q')  # Find the search box
+element.send_keys('Selenide' + Keys.RETURN)  # Input word "Selenide" and start search
 
-RESULTS_LOCATOR = '//*[@id="rso"]/div[1]/div/div/div/div/div[1]/a[1]'
+# RESULTS_LOCATOR = "#ires .g"
+#
+# WebDriverWait(browser, 10).until(
+#     EC.visibility_of_element_located((By.CSS_SELECTOR, RESULTS_LOCATOR)))
 
-WebDriverWait(browser, 10).until(
-    EC.visibility_of_element_located((By.XPATH, RESULTS_LOCATOR)))
-
-page1_results = browser.find_elements(By.XPATH, RESULTS_LOCATOR)
+elements = browser.find_elements_by_css_selector("#ires .g")
+print(elements[0].text)
 
 assert 'Google' in browser.title
-assert "Selenide" in browser.page_source
-for item in page1_results:
-    print(item.text)
+assert "Selenide" in elements[0].text
 
-# browser.quit() # This is optional
+browser.quit() # This is optional
