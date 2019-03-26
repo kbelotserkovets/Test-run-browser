@@ -8,6 +8,10 @@ Use this command
 git clone https://github.com/Ksen4ik/Test-run-browser.git
 ```
 
+#### Notes
+
+- Please, make sure your ```Chrome browser's version is 73```
+- ```Chromedriver's version``` in the repository is ```73```. If you're using another version of Chrome, [here is the link](http://chromedriver.chromium.org/) for download another chromedriver, according to your Chrome browser's version and just replace file.
 
 
 ## Install Python
@@ -37,21 +41,18 @@ pip install -r requirements.txt
 - Run this file by clickng ```Shift + F10```
 
 
-## Run via Terminal (Linux/Mac)
+## Run via Terminal  from ```Test-run-browser``` (Linux/Mac)
 
 ```commandline
 python3 ./try1.py
 ```
-## Run via cmd (Windows)
+## Run via cmd from ```Test-run-browser``` (Windows)
 
 ```commandline
 python ./try1.py
 ```
 
-#### Notes
 
-- Please, make sure your ```Chrome browser's version is 73```
-- ```Chromedriver's version``` in the repository is ```73```. If you're using another version of Chrome, [here is the link](http://chromedriver.chromium.org/) for download another chromedriver, according to your Chrome browser's version and just replace file.
 
 
 
