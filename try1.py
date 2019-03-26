@@ -24,17 +24,15 @@ browser.get('http://www.google.com')
 elem = browser.find_element_by_name('q')  # Find the search box
 elem.send_keys('Selenide' + Keys.RETURN)  # Input word "Selenide" and start search
 
-
-assert 'Google' in browser.title
-assert "Selenide" in browser.page_source
-
-RESULTS_LOCATOR = "//*[@id="rso"]/div[1]/div/div/div/div/div[1]"
+RESULTS_LOCATOR = '//*[@id="rso"]/div[1]/div/div/div/div/div[1]/a[1]'
 
 WebDriverWait(browser, 10).until(
     EC.visibility_of_element_located((By.XPATH, RESULTS_LOCATOR)))
 
 page1_results = browser.find_elements(By.XPATH, RESULTS_LOCATOR)
 
+assert 'Google' in browser.title
+assert "Selenide" in browser.page_source
 for item in page1_results:
     print(item.text)
 
