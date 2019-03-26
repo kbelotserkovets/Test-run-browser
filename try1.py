@@ -27,4 +27,5 @@ print(elements[0].text)
 assert 'Google' in browser.title
 assert "Selenide" in elements[0].text
 
-browser.quit() # This is optional
+browser.close()
+
