@@ -18,7 +18,7 @@ class BaseTest(unittest.TestCase):
     element = driver.find_element_by_name('q')
     element.send_keys('Selenide' + Keys.RETURN)
 
-    firstResultHeader = driver.find_elements_by_css_selector("#ires .g h3")[
+    firstResultHeader = driver.find_elements_by_css_selector("body > div.container.main-container > section > div")[
         0].text
     self.assertEqual("Selenide: concise UI tests in Java", firstResultHeader)
 
@@ -28,3 +28,5 @@ class BaseTest(unittest.TestCase):
 
 if __name__ == '__main__':
   unittest.main()
+
+  # body > div.container.main-container > section > div > ul > li
