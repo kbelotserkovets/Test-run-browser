@@ -13,7 +13,7 @@ class BaseTest(unittest.TestCase):
 
   def testSearch(self):
     driver = self.driver
-    driver.get('http://www.google.com')
+    driver.get('http://www.ts.kg/show/fairy_tail')
 
     element = driver.find_element_by_name('q')
     element.send_keys('Selenide' + Keys.RETURN)
