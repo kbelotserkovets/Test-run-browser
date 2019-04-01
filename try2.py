@@ -11,16 +11,13 @@ class BaseTest(unittest.TestCase):
     driver = self.driver
     driver.get('http://www.ts.kg/show/fairy_tail')
 
-    firstSeasonHeader = driver.find_elements_by_css_selector("body > div.container.main-container > section > h3")[
-        0].text
-    secondSeasonHeader = driver.find_elements_by_css_selector("body > div.container.main-container > section > h3")[
-        1].text
-    thirdSeasonHeader = driver.find_elements_by_css_selector("body > div.container.main-container > section > h3")[
-        2].text
-    fourthSeasonHeader = driver.find_elements_by_css_selector("body > div.container.main-container > section > h3")[
-        3].text
-    fifthSeasonHeader = driver.find_elements_by_css_selector("body > div.container.main-container > section > h3")[
-        4].text
+    seasonHeader = driver.find_elements_by_css_selector("body > div.container.main-container > section > h3")
+
+    firstSeasonHeader = seasonHeader[0].text
+    secondSeasonHeader = seasonHeader[1].text
+    thirdSeasonHeader = seasonHeader[2].text
+    fourthSeasonHeader = seasonHeader[3].text
+    fifthSeasonHeader = seasonHeader[4].text
 
 
     amountOfSeriesInSeasonOva = len(driver.find_elements_by_css_selector(
