@@ -63,9 +63,12 @@ class SeriesLinksTest(unittest.TestCase):
     episodes = driver.find_elements_by_css_selector("section div a")
     count_episodes = len(episodes)
     print(count_episodes, "episodes at all")
+    #
+    # for episode in episodes:
+    #     self.assertIn("http://www.ts.kg/show/fairy_tail", episode.get_attribute("href"))
 
-    for episode in episodes:
-        self.assertIn("http://www.ts.kg/show/fairy_tail", episode.get_attribute("href"))
+    actual = [episode.get_attribute('id') for episode in episodes if "http://www.ts.kg/show/fairy_tail" in episode.get_attribute("href")]
+    print(len(actual), "of %d episodes is valid" % count_episodes)
 
   def tearDown(self):
     self.driver.close()
