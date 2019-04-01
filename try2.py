@@ -7,7 +7,7 @@ class BaseTest(unittest.TestCase):
   def setUp(self):
     self.driver = webdriver.Chrome(executable_path="./chromedriver")
 
-  def testSeasonOva(self):
+  def testSeasons(self):
     driver = self.driver
     driver.get('http://www.ts.kg/show/fairy_tail')
 
@@ -46,16 +46,6 @@ class BaseTest(unittest.TestCase):
     self.assertGreaterEqual(24, amountOfSeriesInSeasonThree)
     self.assertGreaterEqual(24, amountOfSeriesInSeasonThree_Jam)
 
-  def tearDown(self):
-    self.driver.close()
-
-
-
-class SeriesLinksTest(unittest.TestCase):
-
-  def setUp(self):
-    self.driver = webdriver.Chrome(executable_path="./chromedriver")
-
   def testEpisodeContainsUrl(self):
     driver = self.driver
     driver.get('http://www.ts.kg/show/fairy_tail')
@@ -63,16 +53,19 @@ class SeriesLinksTest(unittest.TestCase):
     episodes = driver.find_elements_by_css_selector("section div a")
     count_episodes = len(episodes)
     print(count_episodes, "episodes at all")
-    #
+
     # for episode in episodes:
     #     self.assertIn("http://www.ts.kg/show/fairy_tail", episode.get_attribute("href"))
 
-    actual = [episode.get_attribute('id') for episode in episodes if "http://www.ts.kg/show/fairy_tail" in episode.get_attribute("href")]
+    actual = [episode for episode in episodes if "http://www.ts.kg/show/fairy_tail/OVA" in episode.get_attribute("href")]
+    not_valid_episodes = count_episodes - len(actual)
+
     print(len(actual), "of %d episodes is valid" % count_episodes)
+    print(not_valid_episodes, "of %d episodes is not valid" % count_episodes)
+    self.assertEqual(0, not_valid_episodes, "Expectation: not valid episodes should be equal to zero, but have {0}".format(not_valid_episodes))
 
   def tearDown(self):
     self.driver.close()
-
 
 
 if __name__ == '__main__':
