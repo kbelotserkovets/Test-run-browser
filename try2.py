@@ -54,7 +54,7 @@ class BaseTest(unittest.TestCase):
     # for episode in episodes:
     #     self.assertIn("http://www.ts.kg/show/fairy_tail", episode.get_attribute("href"))
 
-    actual = [episode for episode in episodes if "http://www.ts.kg/show/fairy_tail/OVA" in episode.get_attribute("href")]
+    actual = [episode for episode in episodes if "http://www.ts.kg/show/fairy_tail" in episode.get_attribute("href")]
     not_valid_episodes = count_episodes - len(actual)
 
     print(len(actual), "of %d episodes is valid" % count_episodes)

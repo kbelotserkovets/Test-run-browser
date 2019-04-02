@@ -1,6 +1,7 @@
+import re
 import unittest
-
 from selenium import webdriver
+
 
 class BaseTest(unittest.TestCase):
 
@@ -9,20 +10,19 @@ class BaseTest(unittest.TestCase):
 
   def testEpisodeContainsUrl(self):
     driver = self.driver
+    driver.implicitly_wait(5)
     driver.get('https://oc.kg/#/catalog/genre/37/order/1/page/1')
 
-    films = self.driver.find_elements_by_css_selector('#catalog div div.title a')
+    films = self.driver.find_elements_by_css_selector('#catalog div.item')
+
     for film in films:
-     print(film.text)
-     print(film.get_attribute("href"))
+      name = film.find_element_by_css_selector('div.title a').text
+      year = re.search('\(.*\)', film.find_element_by_css_selector('div.subtitle').text).group()
+      link = film.find_element_by_css_selector('div a').get_attribute('href')
+      print(name, year, link)
 
 
-    # for film in films:
-    #   self.assertIn("https://oc.kg/movie", film.get_attribute("href"))
 
-
-    # a = [film for film in films.range[0, 45] if "https://oc.kg/#/movie" in film.get_atribute("href")]
-    # print(a).text
 
   def tearDown(self):
     self.driver.close()
