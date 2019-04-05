@@ -9,25 +9,44 @@ class BaseTest(unittest.TestCase):
     self.driver = webdriver.Chrome(executable_path="./chromedriver")
 
   def testNameInRussianFilm(self):
-    driver = self.driver
-    driver.implicitly_wait(5)
-    driver.get('https://oc.kg/#/catalog/genre/37/order/1/page/1')
+      driver = self.driver
+      driver.implicitly_wait(5)
+      driver.get('https://oc.kg/#/catalog/genre/37/order/1/page/1')
 
-    films = self.driver.find_elements_by_css_selector('#catalog div.item')
+      films = self.driver.find_elements_by_css_selector('#catalog div.item')
 
-    for film in films:
-      name = film.find_element_by_css_selector('div.title a').text
-      year = re.search('([\d]+)', film.find_element_by_css_selector('div.subtitle').text).group()
-      link = film.find_element_by_css_selector('div a').get_attribute('href')
+      for name in films:
+          name = name.find_element_by_css_selector('div.title a').text
+          self.assertNotEqual(0, len(name), "Expectation: The film's name in Russian should contain string ")
 
-      self.assertNotEqual(0, len(name), "Expectation: The film's name in Russian should contain string")
+          print('Russian name: {name}'.format(name=name))
 
-      self.assertTrue(year.isdigit(), "Check the year contains only digits! :)")
-      self.assertEqual(4, len(year), "Expectation: The length of digits in year should be '4'")
+  def testYearExist(self):
+      driver = self.driver
+      driver.implicitly_wait(5)
+      driver.get('https://oc.kg/#/catalog/genre/37/order/1/page/1')
 
-      self.assertIn("https://oc.kg/movie.php?id", link, "The link should contains: 'https://oc.kg/movie.php?id'")
+      films = self.driver.find_elements_by_css_selector('#catalog div.item')
 
-      print('Russian name: {name}, Year: {year}, Link: {link}'.format(name=name, year=year, link=link))
+      for year in films:
+          year = re.search('([\d]+)', year.find_element_by_css_selector('div.subtitle').text).group()
+          self.assertTrue(year.isdigit(), "Check the year contains only digits! :)")
+          self.assertEqual(4, len(year), "Expectation: The length of digits in year should be '4'")
+
+          print('Year: {year}'.format(year=year))
+
+  def testLinkExist(self):
+      driver = self.driver
+      driver.implicitly_wait(5)
+      driver.get('https://oc.kg/#/catalog/genre/37/order/1/page/1')
+
+      films = self.driver.find_elements_by_css_selector('#catalog div.item')
+
+      for link in films:
+          link = link.find_element_by_css_selector('div a').get_attribute('href')
+          self.assertIn("https://oc.kg/movie.php?id", link, "The link should contains: 'https://oc.kg/movie.php?id'")
+
+          print('Link: {link}'.format(link=link))
 
   def tearDown(self):
     self.driver.close()
@@ -43,40 +62,28 @@ if __name__ == '__main__':
 
 
 
-
-
   # def testNameInRussianFilm(self):
   #   driver = self.driver
-  #   driver.implicitly_wait(5)
   #   driver.get('https://oc.kg/#/catalog/genre/37/order/1/page/1')
+  #
+  #   driver.implicitly_wait(10)
+  #
+  #   target = driver.find_element_by_css_selector('#container > div:nth-child(11)')
+  #   driver.execute_script("arguments[0].scrollIntoView();", target)
+  #
   #
   #   films = self.driver.find_elements_by_css_selector('#catalog div.item')
   #
-  #   for name in films:
-  #     name = name.find_element_by_css_selector('div.title a').text
-  #     self.assertNotEqual(0, len(name), "Expectation: The film's name in Russian should contain string ")
+  #   for film in films:
+  #     name = film.find_element_by_css_selector('div.title a').text
+  #     year = re.search('([\d]+)', film.find_element_by_css_selector('div.subtitle').text).group()
+  #     link = film.find_element_by_css_selector('div a').get_attribute('href')
   #
-  # def testYearExist(self):
-  #   driver = self.driver
-  #   driver.implicitly_wait(5)
-  #   driver.get('https://oc.kg/#/catalog/genre/37/order/1/page/1')
+  #     self.assertNotEqual(0, len(name), "Expectation: The film's name in Russian should contain string")
   #
-  #   films = self.driver.find_elements_by_css_selector('#catalog div.item')
-  #
-  #   for year in films:
-  #     year = re.search('([\d]+)', year.find_element_by_css_selector('div.subtitle').text).group()
   #     self.assertTrue(year.isdigit(), "Check the year contains only digits! :)")
   #     self.assertEqual(4, len(year), "Expectation: The length of digits in year should be '4'")
   #
-  # def testLinkExist(self):
-  #   driver = self.driver
-  #   driver.implicitly_wait(5)
-  #   driver.get('https://oc.kg/#/catalog/genre/37/order/1/page/1')
-  #
-  #   films = self.driver.find_elements_by_css_selector('#catalog div.item')
-  #
-  #   for link in films:
-  #     link = link.find_element_by_css_selector('div a').get_attribute('href')
   #     self.assertIn("https://oc.kg/movie.php?id", link, "The link should contains: 'https://oc.kg/movie.php?id'")
   #
-  # print('Russian name: {name}, Year: {year}, Link: {link}'.format(name=name, year=year, link=link))
+  #     print('Russian name: {name}, Year: {year}, Link: {link}'.format(name=name, year=year, link=link))
