@@ -16,7 +16,7 @@ class BaseTest(unittest.TestCase):
       driver = self.driver
       driver.get('https://oc.kg/#/catalog/genre/37/order/1/page/1')
 
-      wait = WebDriverWait(driver, 100)
+      wait = WebDriverWait(driver, 10)
 
       # Sort by genre
       driver.find_element_by_css_selector("#genres_menu_item > li").click()
@@ -32,19 +32,41 @@ class BaseTest(unittest.TestCase):
 
       for film in films:
         name = film.find_element_by_css_selector('div.title a').text
-
         year = re.search('([\d]+)', film.find_element_by_css_selector('div.subtitle').text).group()
         link = film.find_element_by_css_selector('div a').get_attribute('href')
 
-        self.assertNotEqual(0, len(name), "Expectation: The film's name in Russian should contain string")
-        self.assertRegex(name, '[а-яА-Я]+.*')
+        expected_names = ["Ну разве не романтично? 2019 https://oc.kg/movie.php?id=15576",
+                          "Тайная жизнь пингвинов 2018 https://oc.kg/movie.php?id=15774",
+                          "Мэри Поппинс возвращается 2018 https://oc.kg/movie.php?id=15765",
+                          "Во время грозы 2018 https://oc.kg/movie.php?id=15742",
+                          "Гринч 2018 https://oc.kg/movie.php?id=15680",
+                          "Аквамен 2018 https://oc.kg/movie.php?id=15401",
+                          "Осевшие 2018 https://oc.kg/movie.php?id=15674",
+                          "Остров 2018 https://oc.kg/movie.php?id=15590",
+                          "Фантастические твари: Преступления Грин-де-Вальда 2018 https://oc.kg/movie.php?id=15500",
+                          "Снежная Королева: Зазеркалье 2018 https://oc.kg/movie.php?id=15490",
+                          "На границе миров 2018 https://oc.kg/movie.php?id=15450",
+                          "Суспирия 2018 https://oc.kg/movie.php?id=15446",
+                          "Щелкунчик и четыре королевства 2018 https://oc.kg/movie.php?id=15428",
+                          "Хроники хищных городов 2018 https://oc.kg/movie.php?id=15425",
+                          "Человек, который убил Дон Кихота 2018 https://oc.kg/movie.php?id=15381"
+                          ]
 
-        self.assertTrue(year.isdigit(), "Check the year contains only digits! :)")
-        self.assertEqual(4, len(year), "Expectation: The length of digits in year should be '4'")
+        for names in expected_names:
+            actual_names = name + " " + year + " " + link
+            self.assertEqual(actual_names, names)
+            print(actual_names)
 
-        self.assertIn("https://oc.kg/movie.php?id", link, "The link should contains: 'https://oc.kg/movie.php?id'")
 
-        print('Russian name: {name}, Year: {year}, Link: {link}'.format(name=name, year=year, link=link))
+        # self.assertNotEqual(0, len(name), "Expectation: The film's name in Russian should contain string")
+        # self.assertRegex(name, '[а-яА-Я]+.*')
+        #
+        # self.assertTrue(year.isdigit(), "Check the year contains only digits! :)")
+        # self.assertEqual(4, len(year), "Expectation: The length of digits in year should be '4'")
+        #
+        # self.assertIn("https://oc.kg/movie.php?id", link, "The link should contains: 'https://oc.kg/movie.php?id'")
+        #
+        # print('Russian name: {name}, Year: {year}, Link: {link}'.format(name=name, year=year, link=link))
 
 
 
