@@ -16,7 +16,7 @@ class BaseTest(unittest.TestCase):
       driver = self.driver
       driver.get('https://oc.kg/#/catalog/genre/37/order/1/page/1')
 
-      wait = WebDriverWait(driver, 10)
+      wait = WebDriverWait(driver, 100)
 
       # Sort by genre
       driver.find_element_by_css_selector("#genres_menu_item > li").click()
@@ -52,10 +52,10 @@ class BaseTest(unittest.TestCase):
                           "Человек, который убил Дон Кихота 2018 https://oc.kg/movie.php?id=15381"
                           ]
 
-        for names in expected_names:
+        for names in range[len(expected_names)]:
             actual_names = name + " " + year + " " + link
             self.assertEqual(actual_names, names)
-            print(actual_names)
+            print(actual_names[names])
 
 
         # self.assertNotEqual(0, len(name), "Expectation: The film's name in Russian should contain string")
