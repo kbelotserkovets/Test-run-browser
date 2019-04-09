@@ -42,6 +42,7 @@ class BaseTest(unittest.TestCase):
 
         self.assertNotEqual(0, len(name), "Expectation: The film's name in Russian should contain string")
         # self.assertEqual('ru', lang)
+        self.assertRegex(name, '[а-яА-Я]+.*')
 
         self.assertTrue(year.isdigit(), "Check the year contains only digits! :)")
         self.assertEqual(4, len(year), "Expectation: The length of digits in year should be '4'")
