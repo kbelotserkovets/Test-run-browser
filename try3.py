@@ -52,10 +52,10 @@ class BaseTest(unittest.TestCase):
                           "Человек, который убил Дон Кихота 2018 https://oc.kg/movie.php?id=15381"
                           ]
 
-        for names in range(expected_names):
+        for names in expected_names:
             actual_names = name + " " + year + " " + link
             self.assertEqual(actual_names, names)
-            print(actual_names[names])
+            print(names)
 
 
         # self.assertNotEqual(0, len(name), "Expectation: The film's name in Russian should contain string")
