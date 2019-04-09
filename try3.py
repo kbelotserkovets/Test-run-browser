@@ -4,7 +4,6 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from langdetect import detect
 
 
 
@@ -17,31 +16,27 @@ class BaseTest(unittest.TestCase):
       driver = self.driver
       driver.get('https://oc.kg/#/catalog/genre/37/order/1/page/1')
 
-      wait = WebDriverWait(driver, 10)
+      wait = WebDriverWait(driver, 100)
 
       # Sort by genre
-      driver.find_element_by_css_selector("#genres_menu_item > li > a").click()
+      driver.find_element_by_css_selector("#genres_menu_item > li").click()
       wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "ul[id=genres]")))
-      options = driver.find_elements_by_css_selector("#genres > li")
-      options[15].click()
+      driver.find_element_by_css_selector('#genres > li[data-name="Фэнтези"]').click()
 
       # Sort by year
       driver.find_element_by_css_selector("#sort_menu_item > li > a").click()
       wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "ul[id=sort_wrapper]")))
-      options = driver.find_elements_by_css_selector("#sort_wrapper > li")
-      options[1].click()
+      driver.find_element_by_css_selector('#sort_wrapper > li > a[data-short-text="Новинки"]').click()
 
       films = self.driver.find_elements_by_css_selector('#catalog div.item')
 
       for film in films:
         name = film.find_element_by_css_selector('div.title a').text
-        lang = detect(name)
 
         year = re.search('([\d]+)', film.find_element_by_css_selector('div.subtitle').text).group()
         link = film.find_element_by_css_selector('div a').get_attribute('href')
 
         self.assertNotEqual(0, len(name), "Expectation: The film's name in Russian should contain string")
-        # self.assertEqual('ru', lang)
         self.assertRegex(name, '[а-яА-Я]+.*')
 
         self.assertTrue(year.isdigit(), "Check the year contains only digits! :)")
@@ -50,7 +45,6 @@ class BaseTest(unittest.TestCase):
         self.assertIn("https://oc.kg/movie.php?id", link, "The link should contains: 'https://oc.kg/movie.php?id'")
 
         print('Russian name: {name}, Year: {year}, Link: {link}'.format(name=name, year=year, link=link))
-        print(lang)
 
 
 
