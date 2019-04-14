@@ -4,6 +4,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.action_chains import ActionChains
 
 
 class BaseTest(unittest.TestCase):
@@ -13,21 +14,28 @@ class BaseTest(unittest.TestCase):
 
     def testFilm(self):
         driver = self.driver
+        driver.maximize_window()
         driver.get('https://www.ivi.ru/movies')
+
 
         wait = WebDriverWait(driver, 10) # Time in seconds
 
         # Sort by genre
-        driver.find_element_by_css_selector('div > ul > li[class = "genre-filter js-expandable"]').click()
-        wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "ul[id=genres]")))
-        driver.find_element_by_css_selector('#genres > li[data-name="Фэнтези"]').click()
+        genre_to_hover_over = driver.find_element_by_css_selector('.genre-filter.js-expandable')
+        hover = ActionChains(driver).move_to_element(genre_to_hover_over)
+        hover.perform()
+        wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "li.genre-filter.js-expandable > div.sub-menu")))
+        driver.find_element_by_css_selector('a[data-hru="disaster"]').click()
+
 
         # Sort by year
-        driver.find_element_by_css_selector("#sort_menu_item > li > a").click()
-        wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "ul[id=sort_wrapper]")))
-        driver.find_element_by_css_selector('#sort_wrapper > li > a[data-short-text="Новинки"]').click()
+        year_to_hover_over = driver.find_element_by_css_selector('li.year-filter.js-expandable.js-catalog-filter-year')
+        hover = ActionChains(driver).move_to_element(year_to_hover_over)
+        hover.perform()
+        wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "li.year-filter.js-expandable.js-catalog-filter-year > div.sub-menu.single-column")))
+        driver.find_element_by_css_selector('li > a[data-value="2018"]').click()
 
-        films = self.driver.find_elements_by_css_selector('#catalog div.item')
+        films = driver.find_elements_by_css_selector("div.gallery-wrapper > ul > li[data-content-type='content']")
 
         expected_names = ["Ну разве не романтично? 2019 https://oc.kg/movie.php?id=15576",
                           'Удивительный мир Марвена 2018 https://oc.kg/movie.php?id=15790',
