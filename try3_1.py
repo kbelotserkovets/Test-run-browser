@@ -4,7 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
-
+from selenium.webdriver.common.keys import Keys
 
 class BaseTest(unittest.TestCase):
 
@@ -15,6 +15,7 @@ class BaseTest(unittest.TestCase):
         driver = self.driver
         driver.maximize_window()
         driver.get('https://www.ivi.ru/movies')
+
 
         wait = WebDriverWait(driver, 10) # Time in seconds
 
@@ -33,8 +34,11 @@ class BaseTest(unittest.TestCase):
         wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "li.year-filter.js-expandable.js-catalog-filter-year > div.sub-menu.single-column")))
         driver.find_element_by_css_selector('li > a[data-value="2018"]').click()
 
-        films = driver.find_elements_by_css_selector("div.gallery-wrapper > ul > li[data-content-type='content']")
+        html = driver.find_element_by_tag_name('html')
+        html.send_keys(Keys.END)
+        WebDriverWait(driver, 10)
 
+        films = driver.find_elements_by_css_selector("div.gallery-wrapper > ul > li[data-content-type='content']")
 
 
         expected_names = ["[4K] Разлом 2018 https://www.ivi.ru/watch/305813",
@@ -46,11 +50,14 @@ class BaseTest(unittest.TestCase):
         actual_names = []
 
         for film in films:
-            name = film.find_element_by_css_selector('span.name').text,
 
-            get_year = film.find_element_by_css_selector('li[data-content-type="content"]')
+            name = film.find_element_by_css_selector('span.title > span.name').text
+
+            get_year = film.find_element_by_css_selector('.poster-badge')
             hover = ActionChains(driver).move_to_element(get_year)
             hover.perform()
+            wait.until(EC.visibility_of_element_located(
+                (By.CSS_SELECTOR, ".popup-wrapper-container")))
             year = driver.find_element_by_css_selector('div.properties > span[itemprop="datePublished"]').text,
 
             link = film.find_element_by_css_selector('li[data-content-type="content"] > a').get_attribute('href')
@@ -61,24 +68,6 @@ class BaseTest(unittest.TestCase):
 
         self.assertEqual(expected_names, actual_names,
                          "Compare the film's name on the website with 'expected_names' list")
-
-
-
-
-        #
-        #
-        # actual_names = [
-        #     '{name} {year} {link}'.format(
-        #         name=film.find_element_by_css_selector('span.name').text,
-        #         year=film.find_element_by_css_selector('div.properties > span[itemprop="datePublished"]').text,
-        #         link=film.find_element_by_css_selector('li[data-content-type="content"] > a').get_attribute('href'))
-        #     for film in films
-        # ]
-        # for film in actual_names:
-        #     print(film)
-        # self.assertEqual(expected_names, actual_names,
-        #                  "Compare the film's name on the website with 'expected_names' list")
-
 
 
     def tearDown(self):
