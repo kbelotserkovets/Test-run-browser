@@ -1,4 +1,3 @@
-import re
 import unittest
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -16,7 +15,6 @@ class BaseTest(unittest.TestCase):
         driver = self.driver
         driver.maximize_window()
         driver.get('https://www.ivi.ru/movies')
-
 
         wait = WebDriverWait(driver, 10) # Time in seconds
 
@@ -37,43 +35,51 @@ class BaseTest(unittest.TestCase):
 
         films = driver.find_elements_by_css_selector("div.gallery-wrapper > ul > li[data-content-type='content']")
 
-        expected_names = ["Ну разве не романтично? 2019 https://oc.kg/movie.php?id=15576",
-                          'Удивительный мир Марвена 2018 https://oc.kg/movie.php?id=15790',
-                          "Тайная жизнь пингвинов 2018 https://oc.kg/movie.php?id=15774",
-                          "Мэри Поппинс возвращается 2018 https://oc.kg/movie.php?id=15765",
-                          "Во время грозы 2018 https://oc.kg/movie.php?id=15742",
-                          "Гринч 2018 https://oc.kg/movie.php?id=15680",
-                          "Аквамен 2018 https://oc.kg/movie.php?id=15401",
-                          "Осевшие 2018 https://oc.kg/movie.php?id=15674",
-                          "Остров 2018 https://oc.kg/movie.php?id=15590",
-                          "Фантастические твари: Преступления Грин-де-Вальда 2018 https://oc.kg/movie.php?id=15500",
-                          "Снежная Королева: Зазеркалье 2018 https://oc.kg/movie.php?id=15490",
-                          "На границе миров 2018 https://oc.kg/movie.php?id=15450",
-                          "Суспирия 2018 https://oc.kg/movie.php?id=15446",
-                          "Щелкунчик и четыре королевства 2018 https://oc.kg/movie.php?id=15428",
-                          "Хроники хищных городов 2018 https://oc.kg/movie.php?id=15425"
+
+
+        expected_names = ["[4K] Разлом 2018 https://www.ivi.ru/watch/305813",
+                          'Ограбление в ураган 2018 https://www.ivi.ru/watch/177085',
+                          "Разлом 2018 https://www.ivi.ru/watch/263738",
+                          "Спитак 2018 https://www.ivi.ru/watch/185617"
                           ]
 
-        actual_names = [
-            '{name} {year} {link}'.format(
-                name=film.find_element_by_css_selector('div.title a').text,
-                year=re.search('([\d]+)', film.find_element_by_css_selector('div.subtitle').text).group(),
-                link=film.find_element_by_css_selector('div a').get_attribute('href'))
-            for film in films
-        ]
+        actual_names = []
 
-        self.assertEqual(expected_names, actual_names)
+        for film in films:
+            name = film.find_element_by_css_selector('span.name').text,
+
+            get_year = film.find_element_by_css_selector('li[data-content-type="content"]')
+            hover = ActionChains(driver).move_to_element(get_year)
+            hover.perform()
+            year = driver.find_element_by_css_selector('div.properties > span[itemprop="datePublished"]').text,
+
+            link = film.find_element_by_css_selector('li[data-content-type="content"] > a').get_attribute('href')
+
+            print('{name} {year} {link}'.format(name=name, year=year, link=link))
+
+            actual_names.append(film)
+
+        self.assertEqual(expected_names, actual_names,
+                         "Compare the film's name on the website with 'expected_names' list")
 
 
-        # self.assertNotEqual(0, len(name), "Expectation: The film's name in Russian should contain string")
-        # self.assertRegex(name, '[а-яА-Я]+.*')
+
+
         #
-        # self.assertTrue(year.isdigit(), "Check the year contains only digits! :)")
-        # self.assertEqual(4, len(year), "Expectation: The length of digits in year should be '4'")
         #
-        # self.assertIn("https://oc.kg/movie.php?id", link, "The link should contains: 'https://oc.kg/movie.php?id'")
-        #
-        # print('Russian name: {name}, Year: {year}, Link: {link}'.format(name=name, year=year, link=link))
+        # actual_names = [
+        #     '{name} {year} {link}'.format(
+        #         name=film.find_element_by_css_selector('span.name').text,
+        #         year=film.find_element_by_css_selector('div.properties > span[itemprop="datePublished"]').text,
+        #         link=film.find_element_by_css_selector('li[data-content-type="content"] > a').get_attribute('href'))
+        #     for film in films
+        # ]
+        # for film in actual_names:
+        #     print(film)
+        # self.assertEqual(expected_names, actual_names,
+        #                  "Compare the film's name on the website with 'expected_names' list")
+
+
 
     def tearDown(self):
         self.driver.close()

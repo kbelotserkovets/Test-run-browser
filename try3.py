@@ -53,7 +53,7 @@ class BaseTest(unittest.TestCase):
                 link=film.find_element_by_css_selector('div a').get_attribute('href'))
             for film in films
         ]
-
+        print(actual_names)
         self.assertEqual(expected_names, actual_names)
 
 
