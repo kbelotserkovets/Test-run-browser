@@ -17,7 +17,7 @@ class BaseTest(unittest.TestCase):
         WebDriverWait(driver, 10)  # Time in seconds
 
         # Sort by genre
-        driver.find_element_by_css_selector('a:nth-child(42)').click()
+        driver.find_element_by_css_selector('.mini > a[href="/uzhasy/"]').click()
 
         films = driver.find_elements_by_css_selector('.shortstory')
 
