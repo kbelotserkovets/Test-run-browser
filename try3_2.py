@@ -9,12 +9,12 @@ class BaseTest(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Chrome(executable_path="./chromedriver")
 
-    def testFilm(self):
+    def test_film(self):
         driver = self.driver
         driver.maximize_window()
         driver.get('http://kinogo.eu')
 
-        WebDriverWait(driver, 10)  # Time in seconds
+        WebDriverWait(driver, 10)  # seconds
 
         # Sort by genre
         driver.find_element_by_css_selector('.mini > a[href="/uzhasy/"]').click()

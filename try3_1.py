@@ -14,6 +14,7 @@ class BaseTest(unittest.TestCase):
     def testFilm(self):
         driver = self.driver
         driver.maximize_window()
+        driver.implicitly_wait(10)
         driver.get('https://www.ivi.ru/movies')
 
 
@@ -34,11 +35,14 @@ class BaseTest(unittest.TestCase):
         wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "li.year-filter.js-expandable.js-catalog-filter-year > div.sub-menu.single-column")))
         driver.find_element_by_css_selector('li > a[data-value="2018"]').click()
 
-        html = driver.find_element_by_tag_name('html')
-        html.send_keys(Keys.END)
-        WebDriverWait(driver, 10)
+        # html = driver.find_element_by_tag_name('html')
+        # html.send_keys(Keys.END)
+        # WebDriverWait(driver, 10)
+
+        driver.implicitly_wait(10)
 
         films = driver.find_elements_by_css_selector("div.gallery-wrapper > ul > li[data-content-type='content']")
+
 
 
         expected_names = ["[4K] Разлом 2018 https://www.ivi.ru/watch/305813",
@@ -51,6 +55,7 @@ class BaseTest(unittest.TestCase):
 
         for film in films:
 
+            wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "span.title > span.name")))
             name = film.find_element_by_css_selector('span.title > span.name').text
 
             get_year = film.find_element_by_css_selector('.poster-badge')
