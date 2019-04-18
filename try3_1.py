@@ -11,7 +11,7 @@ class BaseTest(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Chrome(executable_path="./chromedriver")
 
-    def testFilm(self):
+    def test_films_list(self):
         driver = self.driver
         driver.maximize_window()
         driver.implicitly_wait(10)
@@ -55,10 +55,14 @@ class BaseTest(unittest.TestCase):
 
         for film in films:
 
-            wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "span.title > span.name")))
-            name = film.find_element_by_css_selector('span.title > span.name').text
+            target = driver.find_element_by_css_selector('.title')
+            actions = ActionChains(driver)
+            actions.move_to_element(target)
+            actions.perform()
 
-            get_year = film.find_element_by_css_selector('.poster-badge')
+            name = target.text
+
+            get_year = film.find_element_by_css_selector('.js-catalog-list .poster-badge')
             hover = ActionChains(driver).move_to_element(get_year)
             hover.perform()
             wait.until(EC.visibility_of_element_located(
