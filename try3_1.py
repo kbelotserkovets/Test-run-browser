@@ -4,7 +4,6 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.common.keys import Keys
 import time
 
 
@@ -16,10 +15,10 @@ class BaseTest(unittest.TestCase):
     def test_films_list(self):
         driver = self.driver
         driver.maximize_window()
-        driver.implicitly_wait(10)
+        driver.implicitly_wait(5)
         driver.get('https://www.ivi.ru/movies')
 
-        wait = WebDriverWait(driver, 6000000000)  # Time in seconds
+        wait = WebDriverWait(driver, 10)  # Time in seconds
 
         # Sort by genre
         genre_to_hover_over = driver.find_element_by_css_selector('.genre-filter.js-expandable')
@@ -33,49 +32,43 @@ class BaseTest(unittest.TestCase):
         hover = ActionChains(driver).move_to_element(year_to_hover_over)
         hover.perform()
         wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".year-filter div.sub-menu.single-column")))
-        driver.find_element_by_css_selector('li > a[data-value="2018"]').click()
+        driver.find_element_by_css_selector('li > a[data-value="2016"]').click()
 
-        # html = driver.find_element_by_tag_name('html')
-        # html.send_keys(Keys.END)
-        # WebDriverWait(driver, 10)
-
-        # driver.implicitly_wait(10)
-
-        time.sleep(5)
+        time.sleep(3) # Sleep for waiting all films are loaded
 
         films = driver.find_elements_by_css_selector(".js-catalog-list .poster-badge")
 
-        expected_names = ["[4K] Разлом 2018 https://www.ivi.ru/watch/305813",
-                          'Ограбление в ураган 2018 https://www.ivi.ru/watch/177085',
-                          "Разлом 2018 https://www.ivi.ru/watch/263738",
-                          "Спитак 2018 https://www.ivi.ru/watch/185617"
+        expected_names = [
+                          "День независимости: Возрождение 2016 https://www.ivi.ru/watch/131236",
+                          "Ледокол 2016 https://www.ivi.ru/watch/133299",
+                          "Постапокалипсис 2016 https://www.ivi.ru/watch/192845",
+                          "И грянул шторм 2016 https://www.ivi.ru/watch/136467",
+                          "Землетрясение 2016 https://www.ivi.ru/watch/146639",
+                          "Глубоководный горизонт 2016 https://www.ivi.ru/watch/144751",
+                          "Экипаж 2016 https://www.ivi.ru/watch/126896"
                           ]
+
+
+        print(len(films))
 
         actual_names = []
 
-        print(len(films))
-        self.assertTrue(len(films) == 4)
+        for film in reversed(films):
 
-        for film in films:
-            # target = driver.find_element_by_css_selector('a > span.title > span.name')
-            # actions = ActionChains(driver)
-            # actions.move_to_element(target)
-            # actions.perform()
-
-            name = driver.find_element_by_css_selector('.title .name').text
+            name = film.find_element_by_css_selector(".title .name").text
 
             hover = ActionChains(driver).move_to_element(film)
             hover.perform()
             wait.until(EC.visibility_of_element_located(
                 (By.CSS_SELECTOR, ".popup-wrapper-container")))
 
-            year = driver.find_element_by_css_selector('span[itemprop="datePublished"]').text,
+            year = film.find_element_by_css_selector("span[itemprop='datePublished']").text
 
-            link = film.find_element_by_css_selector('a').get_attribute('href')
+            link = film.find_element_by_css_selector("a").get_attribute("href")
 
-            print('{name} {year} {link}'.format(name=name, year=year, link=link))
+            print("{name} {year} {link}".format(name=name, year=year, link=link))
 
-            actual_names.append(film)
+            actual_names.append("{name} {year} {link}".format(name=name, year=year, link=link))
 
         self.assertEqual(expected_names, actual_names,
                          "Compare the film's name on the website with 'expected_names' list")
