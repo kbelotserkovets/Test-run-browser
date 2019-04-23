@@ -1,8 +1,9 @@
 import unittest
 from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
-import time
-
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 class BaseTest(unittest.TestCase):
 
@@ -20,18 +21,17 @@ class BaseTest(unittest.TestCase):
         driver.get('https://www.ivi.ru/movies')
 
         # Sort by genre
-        genre_to_hover_over = driver.find_element_by_css_selector('.genre-filter.js-expandable')
-        self.hover_element(genre_to_hover_over)
-
+        move_coursor_to_genre_filter = driver.find_element_by_css_selector('.genre-filter.js-expandable')
+        self.hover_element(move_coursor_to_genre_filter)
         driver.find_element_by_css_selector('a[data-hru="disaster"]').click()
 
         # Sort by year
-        year_to_hover_over = driver.find_element_by_css_selector('li.year-filter.js-expandable.js-catalog-filter-year')
-        self.hover_element(year_to_hover_over)
-
+        move_coursor_to_year_filter = driver.find_element_by_css_selector('li.year-filter.js-expandable.js-catalog-filter-year')
+        self.hover_element(move_coursor_to_year_filter)
         driver.find_element_by_css_selector('li > a[data-value="2016"]').click()
 
-        time.sleep(1) # Sleep for waiting all films are loaded
+        # Wait until year dropdown become invisible
+        WebDriverWait(driver, 10).until(EC.invisibility_of_element_located((By.CSS_SELECTOR, ".year-filter > .sub-menu.single-column")))
 
         films = driver.find_elements_by_css_selector(".js-catalog-list .poster-badge")
 
@@ -45,8 +45,6 @@ class BaseTest(unittest.TestCase):
                           "Экипаж 2016 https://www.ivi.ru/watch/126896"
                           ]
 
-
-        print(len(films))
 
         actual_names = []
 
