@@ -35,6 +35,42 @@ class Login_Page_Test(unittest.TestCase):
         self.assertEqual(driver.current_url, 'https://staging.onestopwellness.ai/dashboard', 'URL should contain "../dashboard"')
 
 
+    def test_error_message_in_login_with_invalid_data(self):
+        driver = self.driver
+        driver.maximize_window()
+        driver.implicitly_wait(5)
+        driver.get('https://staging.onestopwellness.ai/')
+
+        username = driver.find_element_by_id("email--1")
+        password = driver.find_element_by_id("password--2")
+
+        username.send_keys("support@onestopwellness.ai")
+        password.send_keys("password")
+
+        driver.find_element_by_css_selector('[class*="sign_in_button"]').click()
+
+        error_message = driver.find_element_by_css_selector('[class*="error__"]').text
+
+        self.assertIn(error_message, 'Invalid email or password, please try again')
+
+
+    def test_login_with_empty_field(self):
+        driver = self.driver
+        driver.maximize_window()
+        driver.implicitly_wait(5)
+        driver.get('https://staging.onestopwellness.ai/')
+
+        # username = driver.find_element_by_id("email--1")
+        # password = driver.find_element_by_id("password--2")
+        #
+        # username.send_keys("support@onestopwellness.ai")
+        # password.send_keys("password")
+
+        driver.find_element_by_css_selector('[class*="sign_in_button"]').click()
+
+
+
+
     def tearDown(self):
         self.driver.close()
 
