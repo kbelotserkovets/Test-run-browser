@@ -4,6 +4,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from .locators import *
+import time
 
 
 class Login_Page_Test(unittest.TestCase):
@@ -11,6 +12,9 @@ class Login_Page_Test(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Chrome(executable_path="./Wellness/chromedriver")
         self.driver.implicitly_wait(5)
+
+    def tearDown(self):
+        self.driver.close()
 
     def hover_element(self, element):
         hover = ActionChains(self.driver).move_to_element(element)
@@ -32,7 +36,6 @@ class Login_Page_Test(unittest.TestCase):
         user_avatar = driver.find_element(*DashboardPage.USER_AVATAR)
         self.hover_element(user_avatar)
         WebDriverWait(driver, 10).until(EC.visibility_of_element_located((DashboardPage.PROFILE_MENU)))
-
         driver.find_element(*DashboardPage.SETTINGS).click()
 
 
@@ -48,20 +51,15 @@ class Login_Page_Test(unittest.TestCase):
 
         self.assertIn(error_message, 'Invalid email or password, please try again')
 
-    # def test_login_with_empty_field(self):
-    #     self.user_sign_in("", "")
-    #     error_class = self.driver.find_elements_by_css_selector('[class*="custom_error"]')
-    #
-    #     # WebDriverWait(driver, 10).until(
-    #     #     EC.visibility_of_all_elements_located(error_class))
-    #
-    #     for error in error_class:
-    #         self.assertIn(error, username)
-    #         self.assertIn(error, password)
+    def page_has_loaded(self):
+        page_state = self.driver.execute_script('return document.readyState;')
+        print(page_state)
+        return page_state == 'complete'
+
 
     def test_change_user_name(self):
-        self.user_sign_in("support@onestopwellness.ai", "5SdaG12pY2t0")
         driver = self.driver
+        self.user_sign_in("support@onestopwellness.ai", "5SdaG12pY2t0")
 
         self.open_user_settings()
 
@@ -81,21 +79,26 @@ class Login_Page_Test(unittest.TestCase):
 
         gender_female.click()
 
-        print("Value is: %s" % first_name.get_attribute("value"))
-
         driver.find_element(*SettingsPage.SAVE_CHANGES).click()
 
-        WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, 'div[class*="right_column_menu"] > div[class*="user_information"] > div[class*="user_profile"] > div[class*="user_photo"]')))
+        WebDriverWait(self.driver, 10).until(EC.url_contains("dashboard"))
 
         self.open_user_settings()
+
+        first_name = driver.find_element(*SettingsPage.FIRST_NAME)
+        last_name = driver.find_element(*SettingsPage.LAST_NAME)
+        age = driver.find_element(*SettingsPage.AGE)
+
+        WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.NAME,"firstName")))
+        self.page_has_loaded() == True
+        print(first_name.get_attribute("value"))
+        print(last_name.get_attribute("value"))
+        print(age.get_attribute("value"))
 
         self.assertEqual(first_name.get_attribute("value"), "Lol")
         self.assertEqual(last_name.get_attribute("value"), "Kek")
         self.assertEqual(age.get_attribute("value"), "30")
 
-
-    def tearDown(self):
-        self.driver.close()
 
 if __name__ == '__main__':
     unittest.main()
