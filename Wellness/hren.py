@@ -69,10 +69,10 @@ class Login_Page_Test(unittest.TestCase):
         gender_female = driver.find_element(*SettingsPage.GENDER_FEMALE)
 
         first_name.clear()
-        first_name.send_keys("Lol")
+        first_name.send_keys("Support")
 
         last_name.clear()
-        last_name.send_keys("Kek")
+        last_name.send_keys("Noreply")
 
         age.clear()
         age.send_keys("30")
@@ -95,8 +95,8 @@ class Login_Page_Test(unittest.TestCase):
         print(last_name.get_attribute("value"))
         print(age.get_attribute("value"))
 
-        self.assertEqual(first_name.get_attribute("value"), "Lol")
-        self.assertEqual(last_name.get_attribute("value"), "Kek")
+        self.assertEqual(first_name.get_attribute("value"), "Support")
+        self.assertEqual(last_name.get_attribute("value"), "Noreply")
         self.assertEqual(age.get_attribute("value"), "30")
 
 
