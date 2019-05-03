@@ -54,19 +54,19 @@ class Login_Page_Test(unittest.TestCase):
     def test_login_with_valid_data(self):
         self.user_sign_in("support@onestopwellness.ai", "5SdaG12pY2t0")
         WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, '[class*="__nav_bar_header"]')))
-        self.assertEqual(self.driver.current_url, 'https://staging.onestopwellness.ai/dashboard', 'URL should contain "../dashboard"')
+        self.assertEqual(self.driver.current_url, 'https://staging.onestopwellness.ai/dashboard', 'URL should be "https://staging.onestopwellness.ai/dashboard"')
 
     def test_error_message_in_login_with_invalid_data(self):
         self.user_sign_in("support@onestopwellness.ai", "qwerty")
         error_message = self.driver.find_element_by_css_selector('[class*="error__"]').text
-        self.assertIn(error_message, 'Invalid email or password, please try again')
+        self.assertEqual(error_message, 'Invalid email or password, please try again', 'Error text should be: "Invalid email or password, please try again"')
 
     def test_user_login_with_empty_field(self):
         self.user_sign_in("", "")
         custom_login_error = self.driver.find_element(*LoginPage.ERROR_EMPTY_EMAIL_FIELD)
         custom_password_error = self.driver.find_element(*LoginPage.ERROR_EMPTY_PASSWORD_FIELD)
-        self.assertTrue(custom_login_error.is_displayed())
-        self.assertTrue(custom_password_error.is_displayed())
+        self.assertTrue(custom_login_error.is_displayed(), "The color of email field's border should be RED")
+        self.assertTrue(custom_password_error.is_displayed(), "The color of password field's border should be RED")
 
     def test_change_user_name(self):
         driver = self.driver
@@ -100,7 +100,7 @@ class Login_Page_Test(unittest.TestCase):
         last_name = driver.find_element(*SettingsPage.LAST_NAME)
         age = driver.find_element(*SettingsPage.AGE)
 
-        WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.NAME,"firstName")))
+        WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.NAME, "firstName")))
 
         self.assertEqual(first_name.get_attribute("value"), "Support")
         self.assertEqual(last_name.get_attribute("value"), "Noreply")
