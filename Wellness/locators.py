@@ -3,10 +3,22 @@ from selenium.webdriver.common.by import By
 
 class LoginPage(object):
 
-    EMAIL              = (By.ID, 'email--1')
-    PASSWORD           = (By.ID, 'password--2')
+    EMAIL              = (By.NAME, 'email')
+    PASSWORD           = (By.NAME, 'password')
     SIGN_IN            = (By.CSS_SELECTOR, '[class*="sign_in_button"]')
     ERROR_MESSAGE      = (By.CSS_SELECTOR, '[class*="error__"]')
+    FORGOT_PASSWORD    = (By.CSS_SELECTOR, '[class*="forgot_pass"]')
+    ERROR_EMPTY_EMAIL_FIELD  = (By.CSS_SELECTOR, '[class*="login_form"] > [class*="custom_error"]')
+    ERROR_EMPTY_PASSWORD_FIELD  = (By.CSS_SELECTOR, '[class*="password_field"] > [class*="custom_error"]')
+
+
+class ForgotPassPage(object):
+    NEXT               = (By.CSS_SELECTOR, '[class*="btn_issue_details"]')
+    SIGN_IN            = (By.CSS_SELECTOR, '[class*="sign_in"]')
+    EMAIL_TITLE        = (By.CSS_SELECTOR, '[class*="email_title__"]')
+    SMALL_EMAIL_TITLE  = (By.CSS_SELECTOR, '[class*="email_title_item"]')
+    ERROR_MESSAGE      = (By.CSS_SELECTOR, '[class*="error_message"]')
+    ERROR_EMPTY_EMAIL  = (By.CSS_SELECTOR, '[class*="custom_error"]')
 
 class DashboardPage(object):
 
